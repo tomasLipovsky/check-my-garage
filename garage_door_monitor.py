@@ -232,8 +232,8 @@ def check_long_open():
         if open_duration >= LONG_OPEN_THRESHOLD:
             minutes = int(open_duration / 60)
             send_notification(
-                "⚠️ Garage Door Open Too Long",
-                f"The garage door has been fully open for {minutes} minutes!",
+                "⚠️ Garážová vrata otevřená příliš dlouho",
+                f"Garážová vrata jsou plně otevřená již {minutes} minut!",
                 priority="high",
                 tags=["warning", "clock"]
             )
@@ -250,8 +250,8 @@ def check_partial_position():
         if partial_duration >= PARTIAL_POSITION_THRESHOLD:
             seconds = int(partial_duration)
             send_notification(
-                "⚠️ Garage Door Stuck Partially Open",
-                f"The garage door has been partially open for {seconds} seconds!",
+                "⚠️ Garážová vrata zaseknutá",
+                f"Garážová vrata jsou částečně otevřená již {seconds} sekund!",
                 priority="high",
                 tags=["warning", "door"]
             )
@@ -269,15 +269,15 @@ def handle_door_fully_opened():
     
     if ENABLE_NIGHT_ALERTS and is_suspicious_time():
         send_notification(
-            "🚨 Suspicious Garage Activity",
-            f"Garage door fully opened at {time_str} (unusual time)",
+            "🚨 Podezřelá aktivita v garáži",
+            f"Garážová vrata byla plně otevřena v {time_str} (neobvyklá doba)",
             priority="urgent",
             tags=["rotating_light", "warning"]
         )
     else:
         send_notification(
-            "🚪 Garage Door Fully Opened",
-            f"Garage door reached fully open position at {time_str}",
+            "🚪 Garážová vrata otevřena",
+            f"Garážová vrata dosáhla plně otevřené pozice v {time_str}",
             priority="default",
             tags=["door", "unlock"]
         )
@@ -296,15 +296,15 @@ def handle_door_fully_closed():
         seconds = int(open_duration % 60)
         
         if minutes > 0:
-            duration_str = f" (was open for {minutes}m {seconds}s)"
+            duration_str = f" (byla otevřená {minutes}m {seconds}s)"
         else:
-            duration_str = f" (was open for {seconds}s)"
+            duration_str = f" (byla otevřená {seconds}s)"
     else:
         duration_str = ""
     
     send_notification(
-        "🔒 Garage Door Fully Closed",
-        f"Garage door reached fully closed position at {time_str}{duration_str}",
+        "🔒 Garážová vrata zavřena",
+        f"Garážová vrata dosáhla plně zavřené pozice v {time_str}{duration_str}",
         priority="low",
         tags=["door", "lock"]
     )
@@ -323,8 +323,8 @@ def handle_door_partially_open():
     time_str = datetime.now().strftime("%H:%M")
     
     send_notification(
-        "⏸️ Garage Door Partially Open",
-        f"Garage door is in partial position at {time_str}",
+        "⏸️ Garážová vrata částečně otevřena",
+        f"Garážová vrata jsou v částečně otevřené pozici v {time_str}",
         priority="default",
         tags=["pause_button", "door"]
     )
@@ -333,8 +333,8 @@ def handle_door_partially_open():
 def handle_door_unknown():
     """Handle unknown door state (both sensors triggered)"""
     send_notification(
-        "❓ Garage Door State Unknown",
-        "Both sensors are triggered - possible wiring issue",
+        "❓ Neznámý stav garážových vrat",
+        "Oba senzory jsou aktivní - možný problém s kabeláží",
         priority="high",
         tags=["question", "warning"]
     )
@@ -355,8 +355,8 @@ def monitor_loop():
     
     # Send startup notification
     send_notification(
-        "✅ Garage Monitor Started",
-        "Garage door monitoring system is now active (2-sensor mode)",
+        "✅ Monitor garáže spuštěn",
+        "Systém monitorování garážových vrat je nyní aktivní (režim 2 senzorů)",
         priority="low",
         tags=["white_check_mark"]
     )
@@ -370,12 +370,12 @@ def monitor_loop():
                 # First reading - initialize state
                 door_state = current_state
                 state_desc = {
-                    STATE_FULLY_CLOSED: "FULLY CLOSED",
-                    STATE_FULLY_OPEN: "FULLY OPEN",
-                    STATE_PARTIALLY_OPEN: "PARTIALLY OPEN",
-                    STATE_UNKNOWN: "UNKNOWN"
+                    STATE_FULLY_CLOSED: "PLNĚ ZAVŘENÁ",
+                    STATE_FULLY_OPEN: "PLNĚ OTEVŘENÁ",
+                    STATE_PARTIALLY_OPEN: "ČÁSTEČNĚ OTEVŘENÁ",
+                    STATE_UNKNOWN: "NEZNÁMÝ"
                 }
-                log_info(f"Initial state: Door is {state_desc.get(current_state, 'UNKNOWN')}")
+                log_info(f"Initial state: Door is {state_desc.get(current_state, 'NEZNÁMÝ')}")
                 
             elif current_state != door_state:
                 # State changed - wait for debounce
@@ -415,8 +415,8 @@ def monitor_loop():
     except Exception as e:
         log_error(f"Error: {e}")
         send_notification(
-            "❌ Garage Monitor Error",
-            f"Monitoring stopped due to error: {str(e)}",
+            "❌ Chyba monitoru garáže",
+            f"Monitorování zastaveno kvůli chybě: {str(e)}",
             priority="urgent",
             tags=["x", "warning"]
         )
