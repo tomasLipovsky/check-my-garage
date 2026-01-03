@@ -267,6 +267,7 @@ def handle_door_fully_opened():
     door_partial_at = None
     time_str = datetime.now().strftime("%H:%M")
     
+    # Only send notification if it's suspicious time
     if ENABLE_NIGHT_ALERTS and is_suspicious_time():
         send_notification(
             "🚨 Podezřelá aktivita v garáži",
@@ -275,12 +276,7 @@ def handle_door_fully_opened():
             tags=["rotating_light", "warning"]
         )
     else:
-        send_notification(
-            "🚪 Garážová vrata otevřena",
-            f"Garážová vrata dosáhla plně otevřené pozice v {time_str}",
-            priority="default",
-            tags=["door", "unlock"]
-        )
+        log_info(f"Door opened at {time_str} (normal hours, no notification)")
 
 
 def handle_door_fully_closed():
@@ -299,15 +295,10 @@ def handle_door_fully_closed():
             duration_str = f" (byla otevřená {minutes}m {seconds}s)"
         else:
             duration_str = f" (byla otevřená {seconds}s)"
+        
+        log_info(f"Door closed at {time_str}{duration_str}")
     else:
-        duration_str = ""
-    
-    send_notification(
-        "🔒 Garážová vrata zavřena",
-        f"Garážová vrata dosáhla plně zavřené pozice v {time_str}{duration_str}",
-        priority="low",
-        tags=["door", "lock"]
-    )
+        log_info(f"Door closed at {time_str}")
     
     door_opened_at = None
     door_partial_at = None
@@ -321,17 +312,12 @@ def handle_door_partially_open():
         door_partial_at = time.time()
     
     time_str = datetime.now().strftime("%H:%M")
-    
-    send_notification(
-        "⏸️ Garážová vrata částečně otevřena",
-        f"Garážová vrata jsou v částečně otevřené pozici v {time_str}",
-        priority="default",
-        tags=["pause_button", "door"]
-    )
+    log_info(f"Door partially open at {time_str}")
 
 
 def handle_door_unknown():
     """Handle unknown door state (both sensors triggered)"""
+    log_warning("Both sensors triggered - possible wiring issue")
     send_notification(
         "❓ Neznámý stav garážových vrat",
         "Oba senzory jsou aktivní - možný problém s kabeláží",
