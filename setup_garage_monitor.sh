@@ -16,7 +16,7 @@ chmod +x garage_door_monitor.py
 # Create systemd service (optional)
 echo
 echo "Creating systemd service file..."
-cat > /tmp/garage-monitor.service << 'EOF'
+cat > /etc/systemd/system/garage-monitor.service << 'EOF'
 [Unit]
 Description=Garage Door Monitor
 After=network.target
@@ -25,8 +25,8 @@ After=network.target
 Type=simple
 User=root
 #change to your user and path
-WorkingDirectory=/home/user/garage/check-my-garage
-ExecStart=/usr/bin/python3 /home/user/garage/check-my-garage/garage_door_monitor.py
+WorkingDirectory=/opt/garage-monitor
+ExecStart=/usr/bin/python3 /opt/garage-monitor/garage_door_monitor.py
 Restart=always
 RestartSec=10
 
