@@ -24,8 +24,9 @@ After=network.target
 [Service]
 Type=simple
 User=root
-WorkingDirectory=/home/tomas/Documents/Rodina/Tomas/development/OrangePi
-ExecStart=/usr/bin/python3 /home/tomas/Documents/Rodina/Tomas/development/OrangePi/garage_door_monitor.py
+#change to your user and path
+WorkingDirectory=/home/user/garage/check-my-garage
+ExecStart=/usr/bin/python3 /home/user/garage/check-my-garage/garage_door_monitor.py
 Restart=always
 RestartSec=10
 
