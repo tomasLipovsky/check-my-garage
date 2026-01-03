@@ -22,7 +22,7 @@ FULLY_OPEN_SENSOR_PIN = connector.gpio1p0    # Sensor at fully open position
 FULLY_CLOSED_SENSOR_PIN = connector.gpio1p1  # Sensor at fully closed position
 
 # Ntfy.sh Configuration
-NTFY_TOPIC = "your-garage-topic"  # Change this to your unique topic
+NTFY_TOPIC = "check-my-garage-tli-2026-orca"  # Change this to your unique topic
 NTFY_SERVER = "https://ntfy.sh"  # Use your own server if you have one
 
 # Monitoring Configuration
