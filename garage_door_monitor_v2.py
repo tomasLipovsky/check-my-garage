@@ -206,17 +206,24 @@ def send_notification(title, message, priority="default", tags=None):
             return False
     
     try:
+        # Remove emojis and non-ASCII characters from title for header
+        # HTTP headers must be ASCII-only
+        ascii_title = ''.join(char for char in title if ord(char) < 128)
+        
         headers = {
-            "Title": title,
+            "Title": ascii_title.strip() if ascii_title.strip() else "Garage Monitor",
             "Priority": priority,
         }
         
         if tags:
             headers["Tags"] = ",".join(tags)
         
+        # Include full title with emojis in message body
+        full_message = f"{title}\n\n{message}" if title != ascii_title else message
+        
         response = requests.post(
             f"{NTFY_SERVER}/{NTFY_TOPIC}",
-            data=message.encode('utf-8'),
+            data=full_message.encode('utf-8'),
             headers=headers,
             timeout=10
         )
