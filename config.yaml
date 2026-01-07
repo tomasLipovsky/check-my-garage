@@ -1,0 +1,35 @@
+# Garage Door Monitor Configuration
+
+# Arduino Serial Connection
+arduino:
+  port: "/dev/ttyUSB0"  # Auto-detect if empty, or specify like "/dev/ttyUSB0" or "/dev/ttyACM0"
+  baud_rate: 9600
+  timeout: 2
+  sensor_triggered_state: 1  # 1 if sensor is HIGH when triggered, 0 if LOW
+
+# Ntfy.sh Notification Settings
+notifications:
+  topic: "topic"  # Change this to your unique topic
+  server: "https://ntfy.sh"  # Use your own server if you have one
+  min_interval: 300  # Minimum seconds between same notifications (5 minutes)
+
+# Monitoring Settings
+monitoring:
+  check_interval: 2  # Seconds between checks
+  debounce_time: 1.0  # Seconds to wait before confirming state change
+
+# Alert Settings
+alerts:
+  enable_night_alerts: true
+  enable_long_open_alerts: true
+  enable_partial_alerts: true
+  suspicious_hours_start: 22  # 10 PM
+  suspicious_hours_end: 6     # 6 AM
+  long_open_threshold: 600    # 10 minutes in seconds
+  partial_position_threshold: 30  # Alert if door stuck partially open (seconds)
+
+# Logging Settings
+logging:
+  log_file: "/opt/garage-monitor/garage-monitor.log"
+  log_max_size: 10485760  # 10 MB in bytes
+  log_backup_count: 5  # Keep 5 backup files

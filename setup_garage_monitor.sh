@@ -8,6 +8,7 @@ echo
 # Install required Python packages
 echo "Installing required Python packages..."
 pip3 install requests
+pip3 install pyserial
 
 # Make the script executable
 echo "Making script executable..."
@@ -26,7 +27,7 @@ Type=simple
 User=root
 #change to your user and path
 WorkingDirectory=/opt/garage-monitor
-ExecStart=/usr/bin/python3 /opt/garage-monitor/garage_door_monitor.py
+ExecStart=/usr/bin/python3 /opt/garage-monitor/garage_door_monitor_v2.py
 Restart=always
 RestartSec=10
 
